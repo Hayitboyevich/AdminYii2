@@ -4,12 +4,12 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\DepDrop;
+use backend\models\Post;
 
 /**
- * DepDropSearch represents the model behind the search form of `backend\models\DepDrop`.
+ * PostSearch represents the model behind the search form of `backend\models\Post`.
  */
-class DepDropSearch extends DepDrop
+class PostSearch extends Post
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class DepDropSearch extends DepDrop
     {
         return [
             [['id'], 'integer'],
-            [['name', 'last_name', 'region_id', 'district_id', 'quarter_id'], 'safe'],
+            [['name', 'description', 'user_id'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class DepDropSearch extends DepDrop
      */
     public function search($params)
     {
-        $query = DepDrop::find();
+        $query = Post::find();
 
         // add conditions that should always apply here
 
@@ -51,8 +51,11 @@ class DepDropSearch extends DepDrop
         $this->load($params);
 
         if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
             return $dataProvider;
         }
+
 
 
         // grid filtering conditions
@@ -60,20 +63,12 @@ class DepDropSearch extends DepDrop
             'id' => $this->id,
         ]);
 
-        $query->joinWith('region');
-        $query->joinWith('district');
-        $query->joinWith('quarter');
-
+        $query->joinWith('user');
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'last_name', $this->last_name])
-            ->andFilterWhere(['like', 'region.name', $this->region_id])
-            ->andFilterWhere(['like', 'district.name', $this->district_id])
-            ->andFilterWhere(['like', 'quarter.name', $this->quarter_id]);
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['like', 'user.username', $this->user_id]);
 
         return $dataProvider;
     }
-
-
-
 }

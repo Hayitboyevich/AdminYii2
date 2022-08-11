@@ -4,7 +4,7 @@ namespace backend\models;
 
 use Yii;
 use function Sodium\add;
-
+use backend\models\Region;
 /**
  * This is the model class for table "depdrop".
  *
@@ -110,7 +110,7 @@ class DepDrop extends \yii\db\ActiveRecord
      */
     public function getDistrict()
     {
-        return $this->hasOne(DepDrop::className(), ['id' => 'district_id']);
+        return $this->hasOne(District::className(), ['id' => 'district_id']);
     }
 
     /**
@@ -120,7 +120,7 @@ class DepDrop extends \yii\db\ActiveRecord
      */
     public function getQuarter()
     {
-        return $this->hasOne(DepDrop::className(), ['id' => 'quarter_id']);
+        return $this->hasOne(Quarter::className(), ['id' => 'quarter_id']);
     }
 
     /**
@@ -130,6 +130,6 @@ class DepDrop extends \yii\db\ActiveRecord
      */
     public function getRegion()
     {
-        return $this->hasOne(DepDrop::className(), ['id' => 'region_id']);
+        return $this->hasOne(Region::className(), ['id' => 'region_id']);
     }
 }

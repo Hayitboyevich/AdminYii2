@@ -4,12 +4,12 @@ namespace backend\models;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use backend\models\DepDrop;
+use backend\models\Costumer;
 
 /**
- * DepDropSearch represents the model behind the search form of `backend\models\DepDrop`.
+ * CostumerSearch represents the model behind the search form of `backend\models\Costumer`.
  */
-class DepDropSearch extends DepDrop
+class CostumerSearch extends Costumer
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class DepDropSearch extends DepDrop
     {
         return [
             [['id'], 'integer'],
-            [['name', 'last_name', 'region_id', 'district_id', 'quarter_id'], 'safe'],
+            [['name', 'last_name'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class DepDropSearch extends DepDrop
      */
     public function search($params)
     {
-        $query = DepDrop::find();
+        $query = Costumer::find();
 
         // add conditions that should always apply here
 
@@ -51,29 +51,19 @@ class DepDropSearch extends DepDrop
         $this->load($params);
 
         if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
             return $dataProvider;
         }
-
 
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
         ]);
 
-        $query->joinWith('region');
-        $query->joinWith('district');
-        $query->joinWith('quarter');
-
-
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'last_name', $this->last_name])
-            ->andFilterWhere(['like', 'region.name', $this->region_id])
-            ->andFilterWhere(['like', 'district.name', $this->district_id])
-            ->andFilterWhere(['like', 'quarter.name', $this->quarter_id]);
+            ->andFilterWhere(['like', 'last_name', $this->last_name]);
 
         return $dataProvider;
     }
-
-
-
 }

@@ -20,9 +20,9 @@ class m220811_074359_create_depdrop_table extends Migration
             'district_id' => $this->integer(),
             'quarter_id' => $this->integer(),
         ]);
-        $this->addForeignKey('fk-region_id', 'depdrop', 'region_id', 'region', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk-district_id', 'depdrop', 'district_id', 'district', 'id', 'CASCADE', 'CASCADE');
-        $this->addForeignKey('fk-quarter_id', 'depdrop', 'quarter_id', 'quarter', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk-for_region', 'depdrop', 'region_id', 'region', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk-for_district', 'depdrop', 'district_id', 'district', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk-for_quarter', 'depdrop', 'quarter_id', 'quarter', 'id', 'CASCADE', 'CASCADE');
     }
 
     /**

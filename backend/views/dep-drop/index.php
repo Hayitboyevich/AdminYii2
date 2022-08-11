@@ -30,14 +30,30 @@ $this->params['breadcrumbs'][] = $this->title;
                     'id',
                     'name',
                     'last_name',
-                    'region_id',
-                    'district_id',
-                    'quarter_id',
+                    [
+                        'attribute' => 'region_id',
+                        'label' => 'Region',
+                        'value' => function($res){
+                            $r = \backend\models\Region::findOne($res->region_id);
+                            return $r->name;
+                        }
+                    ],
+                    [
+                        'attribute' => 'district_id',
+                        'label' => 'District',
+                        'value' => 'district.name',
+                    ],
+
+                    [
+                        'attribute' => 'district_id',
+                        'label' => 'District',
+                        'value' => function($res){
+                            $r = \backend\models\Quarter::findOne($res->quarter_id);
+                            return $r->name;
+                        }
+                    ],
                     [
                         'class' => ActionColumn::className(),
-//                        'urlCreator' => function ($action, DepDrop $model, $key, $index, $column) {
-//                            return Url::toRoute([$action, 'id' => $model->id]);
-//                        }
                     ],
                 ],
             ]); ?>

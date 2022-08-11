@@ -57,4 +57,5 @@ class District extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Region::className(), ['id' => 'region_id']);
     }
+
 }

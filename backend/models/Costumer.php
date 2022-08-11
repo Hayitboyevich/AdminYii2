@@ -5,21 +5,22 @@ namespace backend\models;
 use Yii;
 
 /**
- * This is the model class for table "region".
+ * This is the model class for table "costumer".
  *
  * @property int $id
- * @property string $name
+ * @property string|null $name
+ * @property string|null $last_name
  *
- * @property District[] $districts
+ * @property CostumerAddress[] $costumerAddresses
  */
-class Region extends \yii\db\ActiveRecord
+class Costumer extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'region';
+        return 'costumer';
     }
 
     /**
@@ -28,8 +29,7 @@ class Region extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['name'], 'required'],
-            [['name'], 'string', 'max' => 255],
+            [['name', 'last_name'], 'string', 'max' => 30],
         ];
     }
 
@@ -41,16 +41,17 @@ class Region extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'last_name' => 'Last Name',
         ];
     }
 
     /**
-     * Gets query for [[Districts]].
+     * Gets query for [[CostumerAddresses]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getDistricts()
+    public function getCostumerAddresses()
     {
-        return $this->hasMany(District::className(), ['district_id' => 'id']);
+        return $this->hasMany(CostumerAddress::className(), ['costumer_id' => 'id']);
     }
 }
