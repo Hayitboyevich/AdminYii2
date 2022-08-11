@@ -30,7 +30,7 @@
             [
                 'options' => ['class' => 'sidebar-menu tree', 'data-widget'=> 'tree'],
                 'items' => [
-                    ['label' => 'Dep Drop', 'icon' => 'file-code-o', 'url' => ['/dep-drop']],
+                    ['label' => 'Dep Drop', 'icon' => 'file-code-o', 'url' => ['dep-drop/index']],
                     [
                         'label' => 'Multi Input',
                         'icon' => 'dashboard',
