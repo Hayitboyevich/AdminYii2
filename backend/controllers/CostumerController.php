@@ -3,10 +3,13 @@
 namespace backend\controllers;
 
 use backend\models\Costumer;
+use backend\models\CostumerAddress;
 use backend\models\CostumerSearch;
+use backend\models\Helper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use Yii;
 
 /**
  * CostumerController implements the CRUD actions for Costumer model.
@@ -68,10 +71,39 @@ class CostumerController extends Controller
     public function actionCreate()
     {
         $model = new Costumer();
-
+        $modelsAddress = [ new CostumerAddress()];
         if ($this->request->isPost) {
-            if ($model->load($this->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->id]);
+            if ($model->load($this->request->post())) {
+
+                $modelsAddress = Helper::createMultiple(CostumerAddress::classname());
+                Helper::loadMultiple($modelsAddress, Yii::$app->request->post());
+
+                // validate all models
+                $valid = $model->validate();
+                $valid = Helper::validateMultiple($modelsAddress) && $valid;
+
+                if ($valid) {
+                    $transaction = \Yii::$app->db->beginTransaction();
+
+                    try {
+                        if ($flag = $model->save(false)) {
+                            foreach ($modelsAddress as $modelAddress) {
+                                $modelAddress->costumer_id = $model->id;
+                                if (!($flag = $modelAddress->save(false))) {
+                                    $transaction->rollBack();
+                                    break;
+                                }
+                            }
+                        }
+
+                        if ($flag) {
+                            $transaction->commit();
+                            return $this->redirect(['view', 'id' => $model->id]);
+                        }
+                    } catch (\Exception $e) {
+                        $transaction->rollBack();
+                    }
+                }
             }
         } else {
             $model->loadDefaultValues();
@@ -79,6 +111,7 @@ class CostumerController extends Controller
 
         return $this->render('create', [
             'model' => $model,
+            'modelsAddress' => (empty($modelsAddress)) ? [new CostumerAddress ] : $modelsAddress
         ]);
     }
 

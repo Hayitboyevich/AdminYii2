@@ -29,6 +29,7 @@ class Costumer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['name', 'last_name'], 'required'],
             [['name', 'last_name'], 'string', 'max' => 30],
         ];
     }

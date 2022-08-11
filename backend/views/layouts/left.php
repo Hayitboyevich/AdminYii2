@@ -37,8 +37,7 @@
                         'url' => '#',
                         'items' => [
                                 ['label' => 'Dynamic1', 'icon' => 'file-code-o', 'url' => ['person/index']],
-                                ['label' => 'Dynamic2', 'icon' => 'file-code-o', 'url' => '#'],
-                                ['label' => 'Dynamic3', 'icon' => 'file-code-o', 'url' => '#'],
+                                ['label' => 'Dynamic2', 'icon' => 'file-code-o', 'url' => ['costumer/index']],
                         ]
                     ],
                     ['label' => 'Login', 'url' => ['site/login'], 'visible' => Yii::$app->user->isGuest],
